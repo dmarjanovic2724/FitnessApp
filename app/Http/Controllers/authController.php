@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\Models\ProgramModel;
 use Illuminate\Support\Facades\DB;
 use App\Models\Plan;
+use PhpParser\Node\Expr\New_;
 
 class authController extends Controller
 {
@@ -135,33 +136,38 @@ class authController extends Controller
    
         $programModel=ProgramModel::all();
         $users=Usersauth::all();
-    //   $users=Usersauth::find(2);
-    //   $program=ProgramModel::find(10)->users;
-    //     dd($program);
-       
-       
        return view('auth.admin.dashboard',['programModel'=>$programModel,'users'=>$users]);
    }
-
-   function readUserPlan($id)
-   {
-       $userPlan=Usersauth::find($id)->program;
-    //    foreach($userPlan as $plan)
-    //    {
-    //        dd($plan)
-    //    }
-       dd($userPlan);
-     return view('auth.admin.userPlan',['userPlan'=>$userPlan]);
+//admin check users plan
+   public function readUserPlan($id)
+   {    
+       $userName=Usersauth::find($id)->name;          
+        $userPlan=Usersauth::find($id)->program;
+        return view('auth.admin.userPlan',['userPlan'=>$userPlan,'name'=>$userName]);
    }
 
 // user dashboard
    function userDashboard()
    {
-  
-   
-        
-       return view('auth.user.dashboard');
+        $id=session('LoggedUser');
+        $data=Usersauth::find($id)->program;
+        return view('auth.user.dashboard',['data'=>$data]);
    }
+//record status
+ function status(Request $request, $name)
+ {
+    $program=DB::table('program_models')->select('id')->where('programName','=', $name)->first();
+    $programId='';
 
+    foreach($program as $prog)
+    {
+        $programId=$prog;
+    }    
+    $user=session('LoggedUser');
+    // $data=Usersauth::find($user,)->program; 
+    $plan=Plan::where( 'program_id', $programId)->update(['completed'=>1]);
+
+    return back()->with('success','Your plan is changed');
+ }
 
 }

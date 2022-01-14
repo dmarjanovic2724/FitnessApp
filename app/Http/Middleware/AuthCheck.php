@@ -27,7 +27,7 @@ class AuthCheck
          
             return back();
         }
-        if(session()->has('LoggedUser') && $role ==1 && (($request->path() == 'auth/admin/dashboard') || ($request->path()=='auth/login') || ($request->path() =='auth/registry')))
+        if(session()->has('LoggedUser') && $role ==1 && ((str_contains(url()->current(), '/auth/admin')) || ($request->path()=='auth/login') || ($request->path() =='auth/registry')) )
         {
          
             return back();

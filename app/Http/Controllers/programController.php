@@ -18,9 +18,17 @@ class programController extends Controller
         return view('program.createProgram',['data'=>$data]);
     }
 
-//record program into DB
+//create workout program 
     function createProgram(Request $request)
-    {   $request->validate([
+    {  
+        $programExisted=ProgramModel::where('programName','=',$request->programName)->first();
+        
+        if($programExisted)
+        {
+            return back()->with('fail', 'program with name '.$request->programName.' allready existes');
+        }else
+        
+        $request->validate([
         'methods'=>'required',
         'programName'=>'required',
         'selected'=>'required'
@@ -31,10 +39,10 @@ class programController extends Controller
         $ids=json_encode($request->selected);        
         $program->exercises=$ids;
         $program->save();
-        return back()->with('success', 'program '.$request->method.' was created');
-        
-        
-    }
+        return back()->with('success', 'program '.$request->method.' was created');        
+        }
+    
+    
 //view program list
     public function programsList()
     {
@@ -50,13 +58,15 @@ class programController extends Controller
         $programName=$program->programName;         
         $methods=$program->methods;       
         $data=json_decode($program->exercises);        
-
+        
         $exercise=[];
         
         foreach($data as $item)
         {
+            // dd($item);
             $exercise[]=Exercise::all()->where('id','=',$item);
         }
+       
         $data=[];
         foreach($exercise as $item)
         {
@@ -66,9 +76,8 @@ class programController extends Controller
             }
         }
 
-        $data=collect($data);
+        $data=$data;
 
-    //    dd($data);
          
           
        return view('program.program',['data'=>$data,'methods'=>$methods,'programName'=>$programName]);

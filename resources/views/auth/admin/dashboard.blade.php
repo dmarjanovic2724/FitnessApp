@@ -3,106 +3,88 @@
 
 @section('content')
 
-<div class="container-fluid">
-          <h1 class="text-center mt-4">hi admin</h1>
-          @if (Session::get('fail'))
-          <div class="alert alert-danger">
-          {{ Session::get('fail') }}
-        </div>
-          @elseif (Session::get('success'))
-          <div class="alert alert-success">
-          {{ Session::get('success') }}
-        </div>
-          @endif
-          <div class="row">  
+    <div class="container-fluid">
+        @if (Session::get('fail'))
+            <div class="alert alert-danger">
+                {{ Session::get('fail') }}
+            </div>
+        @elseif (Session::get('success'))
+            <div class="alert alert-success">
+                {{ Session::get('success') }}
+            </div>
+        @endif
+
 
         {{-- programs Model --}}
 
-        <form action="{{ route('createPlan') }}" method="POST">
-          @csrf
-              <div class="col-md-3">
-                <h1>Plans</h1>
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <label class="input-group-text" for="inputGroupSelect01">Programs</label>
-                  </div>
-                  <select name="selecProg" class="custom-select" id="inputGroupSelect01">
-                    <option >Choose...</option>
-                    {{-- @foreach ($programModel as $item)
-                    <option  value="{{ $item->id }}">{{ $item->programName }}</option>
-                    @endforeach --}}
-                  </select>
-                </div>
-
-
-              </div> 
-
-      {{-- users --}}
-              <div class="col-md-3">
-                <h1>Plans</h1>
-                <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <label class="input-group-text" for="inputGroupSelect01">Users</label>
-                </div>
-                <select name="selectUser" class="custom-select" id="inputGroupSelect01">
-                  <option >Choose...</option>
-                  {{-- @foreach ($users as $item)
-                  <option  value="{{ $item->id }}">{{ $item->name }}</option>
-                  @endforeach --}}
-                </select>
-              </div>
-            </div> 
-            <button type="submit" class="btn btn-block btn-primary mb-3">Save</button>
-      </form>
-          </div>
-
-
-
-          {{--section list  --}}
-
-          <table class="table">
-            <thead>
-              <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                @foreach ($users as $item)
-                    
-                
-                <td scope="row"></td>
-                <td><a href="{{ route('userPlan', $item->id) }}">{{ $item->name }}</a></td>
-                <td>{{ $item->completed }}</td>
-              </tr>
-              @endforeach
-              <tr>
-                <td scope="row"></td>
-                <td></td>
-                <td></td>
-              </tr>
-            </tbody>
-          </table>
-          
-        
-
-
-          {{-- <div class="row">
+        <div class="row">
             <div class="col-md-12">
-              <ul class="list-group">
-                @foreach ($users->program as $item)
-                    
-                
-                <li class="list-group-item active">{{ $item->programName }}</li>
-                <li class="list-group-item">{{ $users->name }}</li>
-                <li class="list-group-item disabled">Disabled item</li>
-                @endforeach
-              </ul>
+                <form action="{{ route('createPlan') }}" method="POST">
+                    @csrf
+                    <div class="col-md-3  mx-auto ">
+                        <h5 class="text-center mt-4">Select workout plan for user</h5>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Programs</label>
+                            </div>
+                            <select name="selecProg" class="custom-select" id="inputGroupSelect01">
+                                <option>Choose...</option>
+                                @foreach ($programModel as $item)
+                                    <option value="{{ $item->id }}">{{ $item->programName }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    {{-- users --}}
+                    <div class="col-md-3  mx-auto">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Users</label>
+                            </div>
+                            <select name="selectUser" class="custom-select" id="inputGroupSelect01">
+                                <option>Choose...</option>
+                                @foreach ($users as $item)
+                                @if ($item->role == 1)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-block btn-primary mb-3 mx-auto">Save</button>
+                    </div>
+                </form>
             </div>
-          </div> --}}
-</div>
+        </div>
+
+
+        {{-- section list --}}
+
+
+        <div class="col-md-3  mx-auto">
+            <table class="table table-light table-striped ">
+                <thead>
+                    <tr>
+                        <th class="text-center">Check the users workout plan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($users as $item)
+                        <tr>
+                            @if ($item->role == 1)
+                                <td class="text-center"><a
+                                        href="{{ route('userPlan', $item->id) }}">{{ $item->name }}</a></td>
+                            @endif
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+
+
+
+    </div>
 
 
 

@@ -9,8 +9,7 @@ $i=1;
 <div class="container">
   <h2 class="text-center mt-3 mb-2">Edit {{ $program->programName }} program</h2>
     <div class="row">
-      <div class="col-md-12">        
-       
+      <div class="col-md-12">  
         {{-- name and method record --}}
         <form action="{{ route('programUpdate',$program->id) }}" method="POST">
           @csrf
@@ -34,17 +33,14 @@ $i=1;
                 <span class="input-group-text">@error('methods') {{ $message }}  @enderror</span> 
               </div>
               <button type="submit" class="btn btn-block btn-primary mb-3">Update program</button>
-                          
              </div>
             </div>
           </div>
-
           <div class="col-md-4 offset-md-4">
             <table class="table">
                 <thead>
                     <tr>
                         <th>Current exercises in program</th>
-                       
                     </tr>
                 </thead>
                 <tbody>

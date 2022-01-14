@@ -17,25 +17,15 @@ $role=session('role');
            </ul>
          </div>
          @if (str_contains(url()->current(), '/') &&   $role ==1)              
-         <a class="nav-item nav-link" href="auth/user/dashboard">dashboard</a>
+         <a class="nav-item nav-link {{  request()->routeIs('userDashboard') ? 'active' : '' }}" href="{{ route('userDashboard') }}">Dashboard</a>
         @elseif(str_contains(url()->current(), '/') && $role ==0) 
-        <a class="nav-item nav-link " href="{{ route('exerciseList') }}">Exercises <span class="visually-hidden"></span></a>
-        <a class="nav-item nav-link " href="{{ route('program.list') }}">Programs <span class="visually-hidden"></span></a>                    
+        <a class="nav-item nav-link  {{  request()->routeIs('adminDashboard') ? 'active' : '' }}" href="{{ route('adminDashboard') }}">Dashboard</a>
+        <a class="nav-item nav-link  {{  request()->routeIs('exerciseList') ? 'active' : '' }}" href="{{ route('exerciseList') }}">Exercises <span class="visually-hidden"></span></a>
+        <a class="nav-item nav-link  {{  request()->routeIs('program.list') ? 'active' : '' }} " href="{{ route('program.list') }}">Programs <span class="visually-hidden"></span></a>                    
         @endif
          @else
          <a class="nav-item nav-link " href="{{ route('auth.registry') }}">Registry <span class="visually-hidden"></span></a> 
          <a class="nav-item nav-link " href="{{ route('auth.login') }}">Login <span class="visually-hidden"></span></a> 
          @endif
-        
-        
-         {{-- @if (str_contains(url()->current(), '/index') &&   $role ==1)              
-         <a class="nav-item nav-link" href="/user/dashboard">dashboard</a>
-        @elseif(str_contains(url()->current(), '/index') && $role ==0) 
-         <a class="nav-item nav-link" href="/admin/dashboard">dashboard</a>                         
-        @endif --}}
-       
-         
-      
-         
     </div>
 </nav>
