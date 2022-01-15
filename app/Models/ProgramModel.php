@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class ProgramModel extends Model
 {
     use HasFactory;
+    protected $casts=[
+        'exercises'=>'array'
+    ];
    
     public function users()
     {

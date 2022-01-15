@@ -45,8 +45,8 @@
                             <select name="selectUser" class="custom-select" id="inputGroupSelect01">
                                 <option>Choose...</option>
                                 @foreach ($users as $item)
-                                @if ($item->role == 1)
-                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @if ($item->role == 1)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
                                     @endif
                                 @endforeach
                             </select>
